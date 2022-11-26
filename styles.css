@@ -1,0 +1,55 @@
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+h1{
+    text-align: center;
+}
+.contenedor-main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.row{
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.cuadrado{
+    width: 80px;
+    height: 80px;
+    border: none ;
+    background-color: #787c7e;
+    outline: none;
+    font-size: 50px;
+    text-transform: uppercase;
+    color: white;
+    text-align: center;
+}
+.resultado{
+    text-align: center;
+    font-size: 36px;
+}
+.boton{
+    width: 170px;
+    height: 60px;
+    border-radius: 16px;
+    border:none;
+    background-color: #6AAA64;
+    font-size: 32px;
+    color: white;
+}
+.boton:hover{
+    border: 3px solid #6AAA64;
+    background-color: white;
+    color: #6AAA64;
+    cursor:pointer ;
+}
+.acierto{
+    background-color: #6AAA64;
+}
+.existe{
+    background-color: #C9B458;
+}
+.no-esta{
+    background-color: #787C7E;
+}
