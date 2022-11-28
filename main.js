@@ -1,3 +1,4 @@
+let resultadoElemento = document.querySelector('.resultado');
 let palabra = 'texto';
 let palabraArray = palabra.toUpperCase().split('');
 console.log(palabraArray);
@@ -27,13 +28,38 @@ cuadrados.forEach(element =>{
         if(event.target.nextElementSibling){
             event.target.nextElementSibling.focus()
         }else{
+            //comprar index para cambiar el estilo a verde donde las posiciones de ambos arreglos coincide
             let indicesCorrectos = compararArreglos(palabraArray,userInput)
             indicesCorrectos.forEach(element =>{
                 cuadrados[element].classList.add('acierto')
             })
+            //si los arreglos son iguales por la longitud los los arrays entonces va a mostrar el mensaje 
+            if(indicesCorrectos.length == palabraArray.length){
+                resultadoElemento.innerHTML = '<p>GANASTE!</p> <button class="boton">Reiniciar</button>'
+            }
+            //cambiar estilos si existe pero no esta en la posicion correcta
+            existeLetra(palabraArray, userInput){
+                
+            }
+
+
+
+
+
+            //boton de reiniciar
+            //let botonReset = document.querySelector('.boton')
+            //botonReset.addEventListener('click', ()=>{
+            //location.reload();
+            //});
+
+            //nueva linea
+
         }
     });
 })
+
+
+
 
 //Funciones
 function compararArreglos(array1,array2){
