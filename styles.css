@@ -44,12 +44,12 @@ h1{
     color: #6AAA64;
     cursor:pointer ;
 }
-.acierto{
-    background-color: #6AAA64;
+.no-esta{
+    background-color: #787C7E;
 }
 .existe{
     background-color: #C9B458;
 }
-.no-esta{
-    background-color: #787C7E;
+.acierto{
+    background-color: #6AAA64;
 }
