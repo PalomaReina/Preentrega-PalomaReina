@@ -12,66 +12,57 @@ let rowID = 1;
 
 
 dibujarCuadrados(actualRow);
+escucharInput(actualRow);
+agregarFocus(actualRow);
 
 
-let focusElement = document.querySelector('.focus')
-focusElement.focus()
 
+function escucharInput(actualRow){
+    let cuadrados = actualRow.querySelectorAll('.cuadrado');
+    cuadrados = [...cuadrados];
 
-let cuadrados = document.querySelectorAll('.cuadrado');
-cuadrados = [...cuadrados];
+    let userInput = [];
 
-let userInput = [];
-
-//Sibling permite que al ingresar una letra pase a la siguiente, cuando no tiene mas letras frena
-cuadrados.forEach(element =>{
-    element.addEventListener('input', (event)=>{
-        //agregar el ingreso del usuario
-        userInput.push(event.target.value.toUpperCase());
-        if(event.target.nextElementSibling){
-            event.target.nextElementSibling.focus()
-        }else{
-            //comparar index para cambiar el estilo a verde donde las posiciones de ambos arreglos coincide
-            let indicesCorrectos = compararArreglos(palabraArray,userInput)
-            indicesCorrectos.forEach(element =>{
-                cuadrados[element].classList.add('acierto')
-            })
-            
-            //si los arreglos son iguales por la longitud de los arrays entonces va a mostrar el mensaje 
-            if(indicesCorrectos.length == palabraArray.length){
-                resultadoElemento.innerHTML = '<p>GANASTE!</p> <button class="boton">Reiniciar</button>'
+    //Sibling permite que al ingresar una letra pase a la siguiente, cuando no tiene mas letras frena
+    cuadrados.forEach(element =>{
+        element.addEventListener('input', (event)=>{
+            //agregar el ingreso del usuario
+            userInput.push(event.target.value.toUpperCase());
+            if(event.target.nextElementSibling){
+                event.target.nextElementSibling.focus()
+            }else{
+                //comparar index para cambiar el estilo a verde donde las posiciones de ambos arreglos coincide
+                let indicesCorrectos = compararArreglos(palabraArray,userInput)
+                indicesCorrectos.forEach(element =>{
+                    cuadrados[element].classList.add('acierto')
+                })
+                
+                //si los arreglos son iguales por la longitud de los arrays entonces va a mostrar el mensaje 
+                if(indicesCorrectos.length == palabraArray.length){
+                    resultadoElemento.innerHTML = '<p>GANASTE!</p> <button class="boton">Reiniciar</button>'
+                    //boton de reiniciar
+                    let botonReset = document.querySelector('.boton')
+                    botonReset.addEventListener('click', ()=>{
+                    location.reload();
+                    });
+                    return;
+                }
+                //cambiar estilos si existe pero no esta en la posicion correcta
+                //por cada elemento que ingresa el usuario, verifica en el arreglo original si esta incluido, en caso que si cambia a la clase amarrillo
+                let existeIndiceArray = existeLetra(palabraArray, userInput)
+                existeIndiceArray.forEach(element =>{
+                    cuadrados[element].classList.add('existe')
+                })
+                
+                //Se crea nueva fila y se tienen que agregar los eventos de la primera fila
+                let actualRow = crearRow();
+                dibujarCuadrados(actualRow);
+                escucharInput(actualRow);
+                agregarFocus(actualRow);
             }
-           
-            //cambiar estilos si existe pero no esta en la posicion correcta
-            //por cada elemento que ingresa el usuario, verifica en el arreglo original si esta incluido, en caso que si cambia a la clase amarrillo
-            let existeIndiceArray = existeLetra(palabraArray, userInput)
-            existeIndiceArray.forEach(element =>{
-                cuadrados[element].classList.add('existe')
-            })
-            
-            //Se crea nueva fila y se tienen que agregar los eventos de la primera fila
-            let actualRow = crearRow();
-            dibujarCuadrados(actualRow);
-            escucharInput();
-
-
-
-
-
-            //boton de reiniciar
-            //let botonReset = document.querySelector('.boton')
-            //botonReset.addEventListener('click', ()=>{
-            //location.reload();
-            //});
-
-            //nueva linea
-
-        }
-    });
-})
-
-
-
+        });
+    })
+}
 
 //Funciones
 //Comparar los dos arreglos, en caso que coincida el indice se almacena en indexIguales 
@@ -112,4 +103,9 @@ function dibujarCuadrados(actualRow){
         actualRow.innerHTML += '<input type="text" maxlength="1" class="cuadrado">'
     }
 });
+}
+//permite centrar el focus en el primer indice de cada linea
+function agregarFocus(actualRow){
+    let focusElement = actualRow.querySelector('.focus')
+    focusElement.focus();
 }
