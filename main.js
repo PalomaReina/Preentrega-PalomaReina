@@ -39,7 +39,7 @@ function escucharInput(actualRow){
                 
                 //si los arreglos son iguales por la longitud de los arrays entonces va a mostrar el mensaje 
                 if(indicesCorrectos.length == palabraArray.length){
-                    mostrarResultado('Ganaste');
+                    mostrarResultado('Ganaste!!!');
                     return;
                 }
                 //cambiar estilos si existe pero no esta en la posicion correcta
@@ -51,6 +51,10 @@ function escucharInput(actualRow){
                 
                 //Se crea nueva fila y se tienen que agregar los eventos de la primera fila
                 let actualRow = crearRow();
+                //se pregunta si ya no existe otra fila para salir del bucle
+                if(!actualRow){
+                    return;
+                };
                 dibujarCuadrados(actualRow);
                 escucharInput(actualRow);
                 agregarFocus(actualRow);
