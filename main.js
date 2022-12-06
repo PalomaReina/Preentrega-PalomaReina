@@ -39,12 +39,7 @@ function escucharInput(actualRow){
                 
                 //si los arreglos son iguales por la longitud de los arrays entonces va a mostrar el mensaje 
                 if(indicesCorrectos.length == palabraArray.length){
-                    resultadoElemento.innerHTML = '<p>GANASTE!</p> <button class="boton">Reiniciar</button>'
-                    //boton de reiniciar
-                    let botonReset = document.querySelector('.boton')
-                    botonReset.addEventListener('click', ()=>{
-                    location.reload();
-                    });
+                    mostrarResultado('Ganaste');
                     return;
                 }
                 //cambiar estilos si existe pero no esta en la posicion correcta
@@ -88,11 +83,17 @@ function existeLetra(array1, array2){
 //Crear nueva linea de cuadrados si no se adivina completa la palabra
 function crearRow(){
     rowID++;
-    let nuevoRow = document.createElement('div');
-    nuevoRow.classList.add('row');
-    nuevoRow.setAttribute('id',rowID);
-    mainContainer.appendChild(nuevoRow);
-    return nuevoRow;
+//Se limita la cantidad de intentos a 5, siempre que sea igual o menos a 5 va a generar nuevas filas
+    if(rowID <= 5){
+        let nuevoRow = document.createElement('div');
+        nuevoRow.classList.add('row');
+        nuevoRow.setAttribute('id',rowID);
+        mainContainer.appendChild(nuevoRow);
+        return nuevoRow;
+    }else{
+        mostrarResultado('Perdiste!, intentalo de nuevo');
+    }
+    
 }
 function dibujarCuadrados(actualRow){
     //Se crea el espacio para cada letra, en donde el primero va a tener focus para iniciar el juego, automaticamente se setean los cuadrados dependiendo la cantidad de letras de la palabra 
@@ -108,4 +109,12 @@ function dibujarCuadrados(actualRow){
 function agregarFocus(actualRow){
     let focusElement = actualRow.querySelector('.focus')
     focusElement.focus();
+}
+//mostrar los mensajes y el boton de reiniciar
+function mostrarResultado(textMsg){
+    resultadoElemento.innerHTML = `<p>${textMsg}</p> <button class="boton">Reiniciar</button>`
+    let botonReset = document.querySelector('.boton')
+                    botonReset.addEventListener('click', ()=>{
+                    location.reload();
+                    });
 }
