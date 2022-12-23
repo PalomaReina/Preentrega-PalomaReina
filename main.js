@@ -26,38 +26,51 @@ function escucharInput(actualRow){
     //Sibling permite que al ingresar una letra pase a la siguiente, cuando no tiene mas letras frena
     cuadrados.forEach(element =>{
         element.addEventListener('input', (event)=>{
-            //agregar el ingreso del usuario
-            userInput.push(event.target.value.toUpperCase());
-            if(event.target.nextElementSibling){
-                event.target.nextElementSibling.focus()
-            }else{
-                //comparar index para cambiar el estilo a verde donde las posiciones de ambos arreglos coincide
-                let indicesCorrectos = compararArreglos(palabraArray,userInput)
-                indicesCorrectos.forEach(element =>{
-                    cuadrados[element].classList.add('acierto')
-                })
-                
-                //si los arreglos son iguales por la longitud de los arrays entonces va a mostrar el mensaje 
-                if(indicesCorrectos.length == palabraArray.length){
-                    mostrarResultado('Ganaste!!!');
-                    return;
+            //escuchar si el evento es de borrar la letra para que no genere push vacios, si es que no se ha borrado va a continuar
+            if(event.inputType !== 'deleteContentBackward'){
+                //agregar el ingreso del usuario
+                userInput.push(event.target.value.toUpperCase());
+                if(event.target.nextElementSibling){
+                    event.target.nextElementSibling.focus()
+                }else{
+                    //Array con los cuadrados con letras
+                    let cuadradosLlenos = document.querySelectorAll('.cuadrados');
+                    cuadradosLlenos = [...cuadradosLlenos];
+                    cuadradosLlenos.forEach(elemento =>{
+
+                    });
+                    
+                    //comparar index para cambiar el estilo a verde donde las posiciones de ambos arreglos coincide
+                    let indicesCorrectos = compararArreglos(palabraArray,userInput)
+                    indicesCorrectos.forEach(element =>{
+                        cuadrados[element].classList.add('acierto')
+                    })
+                    
+                    //si los arreglos son iguales por la longitud de los arrays entonces va a mostrar el mensaje 
+                    if(indicesCorrectos.length == palabraArray.length){
+                        mostrarResultado('Ganaste!!!');
+                        return;
+                    }
+                    //cambiar estilos si existe pero no esta en la posicion correcta
+                    //por cada elemento que ingresa el usuario, verifica en el arreglo original si esta incluido, en caso que si cambia a la clase amarrillo
+                    let existeIndiceArray = existeLetra(palabraArray, userInput)
+                    existeIndiceArray.forEach(element =>{
+                        cuadrados[element].classList.add('existe')
+                    })
+                    
+                    //Se crea nueva fila y se tienen que agregar los eventos de la primera fila
+                    let actualRow = crearRow();
+                    //se pregunta si ya no existe otra fila para salir del bucle
+                    if(!actualRow){
+                        return;
+                    };
+                    dibujarCuadrados(actualRow);
+                    escucharInput(actualRow);
+                    agregarFocus(actualRow);
                 }
-                //cambiar estilos si existe pero no esta en la posicion correcta
-                //por cada elemento que ingresa el usuario, verifica en el arreglo original si esta incluido, en caso que si cambia a la clase amarrillo
-                let existeIndiceArray = existeLetra(palabraArray, userInput)
-                existeIndiceArray.forEach(element =>{
-                    cuadrados[element].classList.add('existe')
-                })
-                
-                //Se crea nueva fila y se tienen que agregar los eventos de la primera fila
-                let actualRow = crearRow();
-                //se pregunta si ya no existe otra fila para salir del bucle
-                if(!actualRow){
-                    return;
-                };
-                dibujarCuadrados(actualRow);
-                escucharInput(actualRow);
-                agregarFocus(actualRow);
+            }else{
+                //si el evento es de borrado se saca ese indice del arreglo
+                userInput.pop();
             }
         });
     })
@@ -95,7 +108,8 @@ function crearRow(){
         mainContainer.appendChild(nuevoRow);
         return nuevoRow;
     }else{
-        mostrarResultado('Perdiste!, intentalo de nuevo');
+        //mostrar la palabra correcta cuando se terminan los cinco intentos
+        mostrarResultado(`Perdiste!, la palabra correcta era "${palabra.toUpperCase()}"`);
     }
     
 }
