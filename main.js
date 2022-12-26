@@ -1,3 +1,4 @@
+alert("Welcome to the wordle!!!, you have to guess the word remember that you have 5 attempts :D "+"By Paloma Reina")
 //peticion api de palabras
 const options = {
 	method: 'GET',
