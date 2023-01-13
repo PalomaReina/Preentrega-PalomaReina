@@ -1,4 +1,15 @@
 alert("Welcome to the wordle!!!, you have to guess the word remember that you have 5 attempts :D "+"By Paloma Reina")
+//contador de visitas almacenadas el local storage
+let visitas = localStorage.getItem("visitas");
+if (visitas) {
+    visitas = parseInt(visitas) + 1;
+} else {
+    visitas = 1;
+}
+localStorage.setItem("visitas", visitas);
+document.getElementById("visitas").innerHTML =  "El número de visitas que tuviste es " + visitas;
+
+
 //peticion api de palabras
 const options = {
 	method: 'GET',
@@ -24,6 +35,7 @@ fetch('https://random-words5.p.rapidapi.com/getMultipleRandom?count=1&minLength=
     dibujarCuadrados(actualRow);
     escucharInput(actualRow);
     agregarFocus(actualRow);
+
 
 
 
@@ -148,5 +160,6 @@ fetch('https://random-words5.p.rapidapi.com/getMultipleRandom?count=1&minLength=
                         location.reload();
                         });
     }
+
 
 })
